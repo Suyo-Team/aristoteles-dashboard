@@ -1,46 +1,48 @@
-import React from 'react';
-import {Button, Input} from '@material-ui/core';
-import logo from '../../../img/logo.jpg';
+import React from "react";
+import { Button, InputLabel, Box, TextField } from "@material-ui/core";
+import logo from "../../../img/logo.jpg";
 
+const LoginForm = () => {
+  return (
+    <form>
+      <Box textAlign="center">
+        <img src={logo} width="280px" height="180px"></img>
+        <h1>ARISTOTELES</h1>
+        <h2 align="center">
+          <font color="#4000FF">Ingresa a tu cuenta</font>
+        </h2>
+      </Box>
+      <div>
+        <TextField
+          id="email"
+          label="Correo Eletronico:"
+          variant="outlined"
+          color="primary"
+          style={{ width: 300, margin: "5px" }}
+        />
+      </div>
 
-const LoginForm = () =>{
-  
+      <div>
+        <TextField
+          id="passwordl"
+          label="Contraseña:"
+          variant="outlined"
+          color="primary"
+          style={{ width: 300, margin: "5px" }}
+        />
+      </div>
 
-    return(
-         
-            <form>
-                <div>
-                    <img src={logo} width="200px" height="200px"></img>
-                    <h2 >Ingresa a tu cuenta</h2>
-                    <div>
-                       <label htmlFor="email">Correo Eletronico: </label>
-                       
- 
-                    </div>
-                    <input
-                        type="email"
-                         name="email"
-                        id="email"
-                        ></input>
-                    <div className="form-group">
-                        <label htmlFor="password">Contraseña: </label>
-                        
-                    </div>
-                    <input 
-                         type="password" 
-                        name="password" 
-                        id="password" 
-                    ></input>
-                    <div>
-                        <Button variant="contained" color="primary">Ingresar</Button>
-                    </div>
-                </div>
-                
-                
-            </form>  
-     
-
-        
-    )
-}
+      <Box textAlign="center">
+        <Button variant="contained" color="primary" style={{ margin: "10px" }}>
+          Ingresar
+        </Button>
+      </Box>
+      <Box textAlign="center">
+        <InputLabel style={{ color: "#D358F7" }}>
+          ¿Olvidaste la contraseña?
+        </InputLabel>
+      </Box>
+    </form>
+  );
+};
 export default LoginForm;
