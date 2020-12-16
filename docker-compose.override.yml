@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+
+    dashboards:
+        build:
+            context: ./back/dash
+            dockerfile: Dockerfile.dev
+        image: suyo/dashboards:dev
+        command: >
+            sh -c "python manage.py runserver 0:8000"
+        ports:
+            - "8000:8000"
+        volumes:
+            - ./back/dash:/dash

@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+
+    database_dashboards:
+        image: "postgres:10-alpine"
+        container_name: database_dashboards
+        volumes:
+            - postgres_data:/var/lib/postgresql/data/ # To persist database
+        ports:
+            - "5434:5432"  # To avoid collision with local databases
+        env_file:
+            - ./environment/.env.postgres
+
+    dashboards:
+        container_name: dashboards
+        restart: on-failure
+        env_file:
+          - ./environment/.env.dashboards
+        depends_on:
+          - database_dashboards
+
+volumes:
+    postgres_data:
