@@ -2,7 +2,7 @@ version: '3'
 
 services:
 
-    dashboards:
+    back:
         build:
             context: ./back/dash
             dockerfile: Dockerfile.dev
@@ -13,3 +13,13 @@ services:
             - "8000:8000"
         volumes:
             - ./back/dash:/dash
+
+    front:
+        build:
+            context: ./front
+            dockerfile: Dockerfile.dev
+        volumes:
+            - /app/node_modules
+            - ./front:/app
+        ports:
+            - "3000:3000"

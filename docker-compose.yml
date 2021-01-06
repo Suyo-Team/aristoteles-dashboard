@@ -12,13 +12,18 @@ services:
         env_file:
             - ./environment/.env.postgres
 
-    dashboards:
-        container_name: dashboards
+    back:
+        container_name: back
         restart: on-failure
         env_file:
-          - ./environment/.env.dashboards
+          - ./environment/.env.back
         depends_on:
           - database_dashboards
+
+    front:
+        stdin_open: true
+        env_file:
+          - ./environment/.env.front
 
 volumes:
     postgres_data:
