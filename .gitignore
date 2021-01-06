@@ -30,3 +30,5 @@ __pycache__/
 
 # Django
 *.sqlite3
+
+environment/*
