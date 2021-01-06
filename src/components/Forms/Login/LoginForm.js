@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, InputLabel, Box, TextField } from "@material-ui/core";
 import logo from "../../../img/logo.jpg";
+import {Link} from "react-router-dom";
 
 const LoginForm = () => {
   return (
@@ -33,12 +34,14 @@ const LoginForm = () => {
       </div>
 
       <Box textAlign="center">
+        <Link to="/Dashboard">
         <Button variant="contained" color="primary" style={{ margin: "10px" }}>
           Ingresar
         </Button>
+        </Link>
       </Box>
       <Box textAlign="center">
-        <InputLabel style={{ color: "#D358F7" }}>
+        <InputLabel style={{ color: "#4000FF" }}>
           ¿Olvidaste la contraseña?
         </InputLabel>
       </Box>
