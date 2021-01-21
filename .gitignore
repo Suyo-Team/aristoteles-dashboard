@@ -30,3 +30,6 @@ __pycache__/
 
 # Django
 *.sqlite3
+
+# Front
+.eslintcache
