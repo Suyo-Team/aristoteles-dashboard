@@ -1,25 +1,24 @@
-version: '3'
+version: "3"
 
 services:
+  back:
+    build:
+      context: ./back/dash
+      dockerfile: Dockerfile.dev
+    image: suyo/dashboards:dev
+    command: >
+      sh -c "python manage.py runserver 0:8000"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./back/dash:/dash
 
-    back:
-        build:
-            context: ./back/dash
-            dockerfile: Dockerfile.dev
-        image: suyo/dashboards:dev
-        command: >
-            sh -c "python manage.py runserver 0:8000"
-        ports:
-            - "8000:8000"
-        volumes:
-            - ./back/dash:/dash
-
-    front:
-        build:
-            context: ./front
-            dockerfile: Dockerfile.dev
-        volumes:
-            - /app/node_modules
-            - ./front:/app
-        ports:
-            - "3000:3000"
+  front:
+    build:
+      context: ./front
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - ./front:/app
+    ports:
+      - "3000:3000"
