@@ -13,6 +13,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,6 +27,15 @@ const useStyles = makeStyles((theme) => ({
 const LoginView = () => {
   const classes = useStyles();
   const navigate = useNavigate();
+
+  const Autenticacion = async (e)=> {
+    console.log(e)
+    
+    const login = await axios.post('http://localhost:8000/api-token-auth/', e)
+    console.log(login)
+    // navigate('/app/dashboard', { replace: true });
+
+  }
 
   return (
     <Page
@@ -48,9 +58,7 @@ const LoginView = () => {
               email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
               password: Yup.string().max(255).required('Password is required')
             })}
-            onSubmit={() => {
-              navigate('/app/dashboard', { replace: true });
-            }}
+            onSubmit={Autenticacion}
           >
             {({
               errors,
