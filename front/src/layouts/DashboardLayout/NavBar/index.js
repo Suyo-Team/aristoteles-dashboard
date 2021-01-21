@@ -28,6 +28,11 @@ const items = [
     icon: BarChartIcon,
     title: 'Dashboard'
   },
+  {
+    href: '/app/logout',
+    icon: BarChartIcon,
+    title: 'Salir'
+  },
 ];
 
 const useStyles = makeStyles(() => ({

@@ -5,6 +5,7 @@ import MainLayout from 'src/layouts/MainLayout';
 import AccountView from 'src/views/account/AccountView';
 import CustomerListView from 'src/views/customer/CustomerListView';
 import DashboardView from 'src/views/reports/DashboardView';
+import LogoutView from 'src/views/account/LogoutView';
 import LoginView from 'src/views/auth/LoginView';
 import NotFoundView from 'src/views/errors/NotFoundView';
 import ProductListView from 'src/views/product/ProductListView';
@@ -21,6 +22,7 @@ const routes = [
       { path: 'dashboard', element: <DashboardView /> },
       { path: 'products', element: <ProductListView /> },
       { path: 'settings', element: <SettingsView /> },
+      { path: 'logout', element: <LogoutView/> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
   },
@@ -31,7 +33,7 @@ const routes = [
       { path: 'login', element: <LoginView /> },
       { path: 'register', element: <RegisterView /> },
       { path: '404', element: <NotFoundView /> },
-      { path: '/', element: <Navigate to="/app/dashboard" /> },
+      { path: '/', element: <LoginView />  },
       { path: '*', element: <Navigate to="/404" /> }
     ]
   }

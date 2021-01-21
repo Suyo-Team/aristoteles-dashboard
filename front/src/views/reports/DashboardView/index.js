@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Container,
   Grid,
@@ -6,6 +6,8 @@ import {
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 import Sales from './Sales';
+import AsyncStorage from '@react-native-async-storage/async-storage'; 
+import axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,8 +18,37 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Dashboard = () => {
+const Dashboard = ({rkok}) => {
   const classes = useStyles();
+  const [dash, setDash] = useState([])
+  const [isDash, setIsDash] = useState(false)
+
+  const obtenerToken = async () => {
+    const token = await AsyncStorage.getItem('rkok')
+
+    console.log("Este es el token: ", token)
+    const dashboard = await axios.get(
+      "http://localhost:8000/dashboards/",
+     {
+       headers: {
+         Authorization: `JWT ${token}`
+       }
+     }
+    );
+    console.log(dashboard.data.results)
+
+    if(dashboard.data.results.length>0){
+     setDash(dashboard.data.results)
+     setIsDash(true)
+    }
+  }
+  
+  useEffect(()=> {
+
+    if(!isDash)
+    obtenerToken()
+  },[isDash]);
+ 
 
   return (
     <Page
@@ -36,7 +67,15 @@ const Dashboard = () => {
             xl={9}
             xs={12}
           >
-            <Sales />
+            {
+              dash.map(dash => (
+              <> 
+                <Sales titulo={dash.name} ruta={dash.url}  /> 
+                <br></br> 
+              </>
+              
+            ))}
+            
           </Grid>
         </Grid>
       </Container>
