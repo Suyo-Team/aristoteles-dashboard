@@ -58,7 +58,7 @@ const Dashboard = ({rkok}) => {
       <Container maxWidth={false}>
         <Grid
           container
-          spacing={3}
+          spacing={1}
         >
           <Grid
             item

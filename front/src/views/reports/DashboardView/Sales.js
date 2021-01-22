@@ -17,7 +17,10 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
 const useStyles = makeStyles(() => ({
-  root: {}
+  root: {
+    width: "150%",  
+   },
+
 }));
 
 const Sales = ({ className, titulo, ruta, ...rest }) => {
@@ -98,7 +101,7 @@ const Sales = ({ className, titulo, ruta, ...rest }) => {
   return (
     <Card
       className={clsx(classes.root, className)}
-      {...rest}
+      {...rest}      
     >
       <CardHeader
         // action={(
@@ -113,10 +116,14 @@ const Sales = ({ className, titulo, ruta, ...rest }) => {
         title={titulo}
       />
       <Divider />
-      <CardContent>
+      <CardContent >
       <iframe 
       src={ruta}
-       width="540" height="450"
+      position="absolute"
+      top="0"
+      left="0"
+      width="100%"
+      height="100%"
        >
        </iframe>
       </CardContent>
@@ -124,7 +131,7 @@ const Sales = ({ className, titulo, ruta, ...rest }) => {
       <Box
         display="flex"
         justifyContent="flex-end"
-        p={2}
+        p={3}
       >
         <Button
           color="primary"
