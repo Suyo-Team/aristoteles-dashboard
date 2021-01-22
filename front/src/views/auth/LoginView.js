@@ -14,6 +14,7 @@ import {
 } from "@material-ui/core";
 import Page from "src/components/Page";
 import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage'; 
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,38 +30,17 @@ const LoginView = () => {
   const navigate = useNavigate();
 
   const Autentiacion = async (datos) => {
-    //console.log(datos);
+  
 
     const login = await axios.post(
       "http://localhost:8000/api-token-auth/",
       datos,
     );
+
     const token = login.data.token;
+    await AsyncStorage.setItem('rkok', token)
     if (token) navigate("/app/dashboard", { replace: true, rkok: token });
-    else console.log("Contraseña inválida");
-
-    // // Verificar token
-    // const verifi_token = await axios.post(
-    //   "http://localhost:8000/api-token-verify/",
-    //   objeto,
-    // );
-    // console.log(verifi_token);
-    // console.log(login.data.token);
-
-    // Obtemos los dahsboard
-
-    const dash = await axios.get("http://localhost:8000/dashboards/", {
-      headers: {
-        //`WWW-Authenticate: Basic realm='api'`
-        Authorization: `JWT ${token}`,
-      },
-    });
-    console.log("info: ", dash);
-    /*const dashboard = await axios.get(
-      "http://localhost:8000/dashboards/",
-      login.data.token,
-    );
-    console.log("Información de dash", dashboard.data);*/
+  
   };
 
   return (
@@ -74,15 +54,15 @@ const LoginView = () => {
         <Container maxWidth="sm">
           <Formik
             initialValues={{
-              email: "demo@devias.io",
-              password: "Password123",
+              email: "",
+              password: "",
             }}
             validationSchema={Yup.object().shape({
               email: Yup.string()
-                .email("Must be a valid email")
+                .email("Ingrese un email válido")
                 .max(255)
-                .required("Email is required"),
-              password: Yup.string().max(255).required("Password is required"),
+                .required("Email es requerido"),
+              password: Yup.string().max(255).required("Password es requerido"),
             })}
             onSubmit={Autentiacion}
           >
@@ -150,9 +130,9 @@ const LoginView = () => {
                   variant="body1"
                   align="center"
                 >
-                  <Link component={RouterLink} to="/register" variant="h6">
+                  {/* <Link component={RouterLink} to="/register" variant="h6">
                     ¿ Olvidaste la contraseña?
-                  </Link>
+                  </Link> */}
                 </Typography>
               </form>
             )}

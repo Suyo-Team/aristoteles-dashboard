@@ -20,7 +20,7 @@ const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-const Sales = ({ className, ...rest }) => {
+const Sales = ({ className, titulo, ruta, ...rest }) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -101,28 +101,24 @@ const Sales = ({ className, ...rest }) => {
       {...rest}
     >
       <CardHeader
-        action={(
-          <Button
-            endIcon={<ArrowDropDownIcon />}
-            size="small"
-            variant="text"
-          >
-            Last 7 days
-          </Button>
-        )}
-        title="Latest Sales"
+        // action={(
+        //   <Button
+        //     endIcon={<ArrowDropDownIcon />}
+        //     size="small"
+        //     variant="text"
+        //   >
+        //    {titulo}
+        //   </Button>
+        // )}
+        title={titulo}
       />
       <Divider />
       <CardContent>
-        <Box
-          height={400}
-          position="relative"
-        >
-          <Bar
-            data={data}
-            options={options}
-          />
-        </Box>
+      <iframe 
+      src={ruta}
+       width="540" height="450"
+       >
+       </iframe>
       </CardContent>
       <Divider />
       <Box
@@ -136,7 +132,7 @@ const Sales = ({ className, ...rest }) => {
           size="small"
           variant="text"
         >
-          Overview
+          Compartir
         </Button>
       </Box>
     </Card>
