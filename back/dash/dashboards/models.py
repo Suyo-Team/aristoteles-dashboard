@@ -19,5 +19,6 @@ class Dashboard(models.Model):
     # Dashboards with this attribute set to true
     # can be accessed by anyone.
     is_public = models.BooleanField(default=False)
+    public_url = models.UUIDField(editable=False, null=True, default=None)
 
 

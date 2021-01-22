@@ -1,3 +1,5 @@
+import uuid
+
 from rest_framework import viewsets
 from rest_framework.decorators import action, permission_classes
 from rest_framework.response import Response
@@ -55,6 +57,7 @@ class DashboardViewSet(viewsets.ModelViewSet):
             # Then we change the dashboard from private
             # to public
             dashboard.is_public = True
+            dashboard.public_url = uuid.uuid4()
             dashboard.save()
             return Response({
                 'status': 'SUCCESS',
