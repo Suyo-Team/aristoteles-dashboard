@@ -13,8 +13,11 @@ import {
 } from '@material-ui/core';
 import {
   BarChart as BarChartIcon,
+  LogOut,
+  User 
 } from 'react-feather';
 import NavItem from './NavItem';
+
 
 const user = {
   avatar: '/static/images/avatars/avatar_6.png',
@@ -29,10 +32,16 @@ const items = [
     title: 'Dashboard'
   },
   {
+    href: '/app/account',
+    icon: User,
+    title: 'Mi perfil'
+  },
+  {
     href: '/app/logout',
-    icon: BarChartIcon,
+    icon: LogOut,
     title: 'Salir'
   },
+ 
 ];
 
 const useStyles = makeStyles(() => ({
