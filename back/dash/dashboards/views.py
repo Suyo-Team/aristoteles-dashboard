@@ -1,9 +1,12 @@
 import uuid
 
+from django.http import Http404
+
 from rest_framework import viewsets
 from rest_framework.decorators import action, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import get_object_or_404
 
 from .serializers import DashboardSerializer
 from .models import Dashboard
@@ -40,8 +43,39 @@ class DashboardViewSet(viewsets.ModelViewSet):
         else:
             permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
+
+    def get_object(self):
+        """
+        Returns the object the view is displaying.
+
+        It's being overriden so we can get the same dashboard either if we pass the
+        primari key ID or the public_url UUID
+        """
+        queryset = self.filter_queryset(self.get_queryset())
+        # Perform the lookup filtering.
+        lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
+        assert lookup_url_kwarg in self.kwargs, (
+            'Expected view %s to be called with a URL keyword argument '
+            'named "%s". Fix your URL conf, or set the `.lookup_field` '
+            'attribute on the view correctly.' %
+            (self.__class__.__name__, lookup_url_kwarg)
+        )
+        filter_kwargs = {self.lookup_field: self.kwargs[lookup_url_kwarg]}
+        
+        # We can pass either the primary key of the dashboard, Or
+        # the public_url uuid
+        try:
+            obj = get_object_or_404(queryset, **filter_kwargs)
+        except Http404:
+            #  Now we try with the public url
+            obj = get_object_or_404(queryset, **{'public_url': self.kwargs[lookup_url_kwarg]})
+
+        # May raise a permission denied
+        self.check_object_permissions(self.request, obj)
+
+        return obj
    
-    @action(detail=True, methods=['POST'])    
+    @action(detail=True, methods=['POST'])
     def share(self, request, pk=None):
         """
         Truns a dashboard into 'public', or, if a set of data
