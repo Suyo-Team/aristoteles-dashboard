@@ -70,7 +70,7 @@ const Dashboard = ({rkok}) => {
             {
               dash.map(dash => (
               <> 
-                <Sales titulo={dash.name} ruta={dash.url}  /> 
+                <Sales titulo={dash.name} ruta={dash.url} id={dash.id} is_public={dash.is_public}/> 
                 <br></br> 
               </>
               

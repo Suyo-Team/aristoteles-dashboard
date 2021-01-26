@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Bar } from 'react-chartjs-2';
@@ -15,6 +15,8 @@ import {
 } from '@material-ui/core';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage'; 
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -23,25 +25,56 @@ const useStyles = makeStyles(() => ({
 
 }));
 
-const Sales = ({ className, titulo, ruta, ...rest }) => {
+  const Sales = ({ className, titulo, ruta, id, is_public, ...rest }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const [estad, setEstad] = useState()
 
-  const data = {
-    datasets: [
+  useEffect(() => {
+    console.log('usss=', is_public);
+  }); 
+  
+  
+
+  
+ 
+  const Compartir = async (datos,estado) => {
+    const token = await AsyncStorage.getItem('rkok')
+   console.log(estado)
+   
+  
+   
+   const Objeto =  {
+     
+      "is_public": estado
+          
+    }
+
+   
+    const Modificar = await axios.post(
+      `http://localhost:8000/dashboards/${datos}/share/`, (Objeto),
+
       {
-        backgroundColor: colors.indigo[500],
-        data: [18, 5, 19, 27, 29, 19, 20],
-        label: 'This year'
-      },
-      {
-        backgroundColor: colors.grey[200],
-        data: [11, 20, 12, 29, 30, 25, 13],
-        label: 'Last year'
+        headers: {
+          Authorization: `JWT ${token}`
+        }
       }
-    ],
-    labels: ['1 Aug', '2 Aug', '3 Aug', '4 Aug', '5 Aug', '6 Aug']
-  };
+      
+    );
+
+    is_public? alert(`Tu Dashboard ya no es publico`):alert(`Tu Dashboard es publico, Esta es tu Ruta: ${ruta}`)
+
+   console.log(Objeto)
+   
+   
+
+    };
+
+  
+
+
+
+  
 
   const options = {
     animation: false,
@@ -138,8 +171,9 @@ const Sales = ({ className, titulo, ruta, ...rest }) => {
           endIcon={<ArrowRightIcon />}
           size="small"
           variant="text"
+          onClick={()=> setEstad(Compartir(id, !is_public))} 
         >
-          Compartir
+          {is_public?'Descompartir':'Compartir'}
         </Button>
       </Box>
     </Card>
