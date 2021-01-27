@@ -22,7 +22,7 @@ const Dashboard = ({rkok}) => {
   const classes = useStyles();
   const [dash, setDash] = useState([])
   const [isDash, setIsDash] = useState(false)
-  const [publico, setPublico] = useState();
+  
 
   const obtenerToken = async () => {
     const token = await AsyncStorage.getItem('rkok')
@@ -44,9 +44,7 @@ const Dashboard = ({rkok}) => {
     }
   }
 
-  const handlePublic = (dato)=> {
-    setPublico(dato)
-  }
+ 
   
   useEffect(()=> {
 
@@ -75,7 +73,7 @@ const Dashboard = ({rkok}) => {
             {
               dash.map(dash => (
               <> 
-                <Sales titulo={dash.name} ruta={dash.url} id={dash.id} is_public={dash.is_public} publico={handlePublic} validpublic={publico}/> 
+                <Sales titulo={dash.name} ruta={dash.url} id={dash.id} is_public={dash.is_public}/> 
                 <br></br> 
               </>
               

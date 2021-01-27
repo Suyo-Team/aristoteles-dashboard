@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { Bar } from 'react-chartjs-2';
 import {
   Box,
   Button,
@@ -11,9 +10,8 @@ import {
   Divider,
   useTheme,
   makeStyles,
-  colors
+ 
 } from '@material-ui/core';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage'; 
@@ -25,17 +23,21 @@ const useStyles = makeStyles(() => ({
 
 }));
 
-  const Sales = ({ className, titulo, ruta, id, is_public, publico, validpublic, ...rest }) => {
+  const Sales = ({ className, titulo, ruta, id, is_public,   ...rest }) => {
   const classes = useStyles();
   const theme = useTheme();
-  //const [estad, setEstad] = useState()
-  
+  const [publico, setPublico] = useState(is_public);
+ 
+  const handlePublic = (dato)=> {
+    setPublico(dato)
+   
+  }
 
 
  
   const Compartir = async (datos,is_public) => {
     const token = await AsyncStorage.getItem('rkok');
-    console.log("Valor de is public", is_public);
+    console.log("Valor public", is_public);
 
     let estado;
 
@@ -44,15 +46,13 @@ const useStyles = makeStyles(() => ({
     else
       estado = false
 
-      publico(estado)
-
     const Objeto =  {
       "is_public": estado
      
     }
-    
 
-   
+    handlePublic(estado)
+
     const Modificar = await axios.post(
       `http://localhost:8000/dashboards/${datos}/share/`, (Objeto),
 
@@ -63,12 +63,10 @@ const useStyles = makeStyles(() => ({
       }
     
     );
-    
-
+ 
     !estado? alert(`Tu Dashboard ya no es publico`):alert(`Tu Dashboard es publico, Esta es tu Ruta: ${ruta}`)
 
       return estado
-   
 
     };
 
@@ -127,7 +125,12 @@ const useStyles = makeStyles(() => ({
       titleFontColor: theme.palette.text.primary
     }
   };
-  console.log("Valor de is_public: ", validpublic)
+ 
+
+  
+
+
+
   return (
     <Card
       className={clsx(classes.root, className)}
@@ -168,9 +171,9 @@ const useStyles = makeStyles(() => ({
           endIcon={<ArrowRightIcon />}
           size="small"
           variant="text"
-          onClick={()=> Compartir(id, is_public)} 
+          onClick={()=> Compartir(id, publico)} 
         >
-          {is_public?'Descompartir':'Compartir'}
+          {publico?'Descompartir':'Compartir'}
 
         </Button>
       </Box>
