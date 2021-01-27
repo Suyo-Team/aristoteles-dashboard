@@ -25,30 +25,32 @@ const useStyles = makeStyles(() => ({
 
 }));
 
-  const Sales = ({ className, titulo, ruta, id, is_public, ...rest }) => {
+  const Sales = ({ className, titulo, ruta, id, is_public, publico, validpublic, ...rest }) => {
   const classes = useStyles();
   const theme = useTheme();
-  const [estad, setEstad] = useState()
-
-  useEffect(() => {
-    console.log('usss=', is_public);
-  }); 
-  
+  //const [estad, setEstad] = useState()
   
 
-  
+
  
-  const Compartir = async (datos,estado) => {
-    const token = await AsyncStorage.getItem('rkok')
-   console.log(estado)
-   
-  
-   
-   const Objeto =  {
-     
+  const Compartir = async (datos,is_public) => {
+    const token = await AsyncStorage.getItem('rkok');
+    console.log("Valor de is public", is_public);
+
+    let estado;
+
+    if(!is_public)
+      estado = true
+    else
+      estado = false
+
+      publico(estado)
+
+    const Objeto =  {
       "is_public": estado
-          
+     
     }
+    
 
    
     const Modificar = await axios.post(
@@ -59,23 +61,18 @@ const useStyles = makeStyles(() => ({
           Authorization: `JWT ${token}`
         }
       }
-      
+    
     );
+    
 
-    is_public? alert(`Tu Dashboard ya no es publico`):alert(`Tu Dashboard es publico, Esta es tu Ruta: ${ruta}`)
+    !estado? alert(`Tu Dashboard ya no es publico`):alert(`Tu Dashboard es publico, Esta es tu Ruta: ${ruta}`)
 
-   console.log(Objeto)
-   
+      return estado
    
 
     };
 
-  
-
-
-
-  
-
+ 
   const options = {
     animation: false,
     cornerRadius: 20,
@@ -130,7 +127,7 @@ const useStyles = makeStyles(() => ({
       titleFontColor: theme.palette.text.primary
     }
   };
-
+  console.log("Valor de is_public: ", validpublic)
   return (
     <Card
       className={clsx(classes.root, className)}
@@ -171,9 +168,10 @@ const useStyles = makeStyles(() => ({
           endIcon={<ArrowRightIcon />}
           size="small"
           variant="text"
-          onClick={()=> setEstad(Compartir(id, !is_public))} 
+          onClick={()=> Compartir(id, is_public)} 
         >
           {is_public?'Descompartir':'Compartir'}
+
         </Button>
       </Box>
     </Card>
