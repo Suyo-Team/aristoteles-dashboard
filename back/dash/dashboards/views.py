@@ -12,6 +12,7 @@ from .serializers import DashboardSerializer
 from .models import Dashboard
 from .permissions import IsPublicOrAuthenticatedOwner
 
+
 class DashboardViewSet(viewsets.ModelViewSet):
 
     # Used for AnonimousUsers
@@ -83,9 +84,21 @@ class DashboardViewSet(viewsets.ModelViewSet):
         we agregate them to the list of users the dashboard is 
         shared with.
         """
-        dashboard = self.get_object()
+        dashboard = self.get_object()        
         share_with = request.data.get('share_with')
-        if share_with is not None:
+        set_private = bool(request.data.get('set_private', False))
+        print(set_private)
+        if set_private:
+            # Then we change the dashboard from public
+            # to private
+            dashboard.is_public = False
+            dashboard.public_url = None
+            dashboard.save()
+            return Response({
+                'status': 'SUCCESS',
+                'message': 'Dashboard \'{}\' is no longer public'.format(dashboard.name)
+            })
+        elif share_with is not None:
             pass
         else:
             # Then we change the dashboard from private
