@@ -86,8 +86,7 @@ class DashboardViewSet(viewsets.ModelViewSet):
         """
         dashboard = self.get_object()        
         share_with = request.data.get('share_with')
-        set_private = bool(request.data.get('set_private', False))
-        print(set_private)
+        set_private = bool(request.data.get('set_private', False))        
         if set_private:
             # Then we change the dashboard from public
             # to private
