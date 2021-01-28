@@ -1,7 +1,6 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { Bar } from 'react-chartjs-2';
 import {
   Box,
   Button,
@@ -11,10 +10,11 @@ import {
   Divider,
   useTheme,
   makeStyles,
-  colors
+ 
 } from '@material-ui/core';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage'; 
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -23,26 +23,54 @@ const useStyles = makeStyles(() => ({
 
 }));
 
-const Sales = ({ className, titulo, ruta, ...rest }) => {
+  const Sales = ({ className, titulo, ruta, id, is_public,   ...rest }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const [publico, setPublico] = useState(is_public);
+ 
+  const handlePublic = (dato)=> {
+    setPublico(dato)
+   
+  }
 
-  const data = {
-    datasets: [
+
+ 
+  const Compartir = async (datos,is_public) => {
+    const token = await AsyncStorage.getItem('rkok');
+    console.log("Valor public", is_public);
+
+    let estado;
+
+    if(!is_public)
+      estado = true
+    else
+      estado = false
+
+    const Objeto =  {
+      "is_public": estado
+     
+    }
+
+    handlePublic(estado)
+
+    const Modificar = await axios.post(
+      `http://localhost:8000/dashboards/${datos}/share/`, (Objeto),
+
       {
-        backgroundColor: colors.indigo[500],
-        data: [18, 5, 19, 27, 29, 19, 20],
-        label: 'This year'
-      },
-      {
-        backgroundColor: colors.grey[200],
-        data: [11, 20, 12, 29, 30, 25, 13],
-        label: 'Last year'
+        headers: {
+          Authorization: `JWT ${token}`
+        }
       }
-    ],
-    labels: ['1 Aug', '2 Aug', '3 Aug', '4 Aug', '5 Aug', '6 Aug']
-  };
+    
+    );
+ 
+    !estado? alert(`Tu Dashboard ya no es publico`):alert(`Tu Dashboard es publico, Esta es tu Ruta: ${ruta}`)
 
+      return estado
+
+    };
+
+ 
   const options = {
     animation: false,
     cornerRadius: 20,
@@ -97,6 +125,11 @@ const Sales = ({ className, titulo, ruta, ...rest }) => {
       titleFontColor: theme.palette.text.primary
     }
   };
+ 
+
+  
+
+
 
   return (
     <Card
@@ -138,8 +171,10 @@ const Sales = ({ className, titulo, ruta, ...rest }) => {
           endIcon={<ArrowRightIcon />}
           size="small"
           variant="text"
+          onClick={()=> Compartir(id, publico)} 
         >
-          Compartir
+          {publico?'Descompartir':'Compartir'}
+
         </Button>
       </Box>
     </Card>

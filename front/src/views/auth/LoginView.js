@@ -42,6 +42,7 @@ const LoginView = () => {
     if (token) navigate("/app/dashboard", { replace: true, rkok: token });
   
   };
+  
 
   return (
     <Page className={classes.root} title="Login">
