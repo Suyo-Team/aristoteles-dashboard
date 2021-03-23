@@ -6,8 +6,9 @@ import {
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 import Sales from './Sales';
-import AsyncStorage from '@react-native-async-storage/async-storage'; 
-import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import Config from 'src/utils/config';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,6 +18,8 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(3)
   }
 }));
+
+const { API_ROOT } = process.env;
 
 const Dashboard = ({rkok}) => {
   const classes = useStyles();
@@ -29,7 +32,7 @@ const Dashboard = ({rkok}) => {
 
     console.log("Este es el token: ", token)
     const dashboard = await axios.get(
-      "http://localhost:8000/dashboards/",
+      `${Config.app.api_root}/dashboards/`,
      {
        headers: {
          Authorization: `JWT ${token}`
