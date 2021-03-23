@@ -9,7 +9,7 @@ services:
     command: >
       sh -c "python manage.py runserver 0:8000"
     ports:
-      - "8000:8000"
+      - "8045:8000"
     volumes:
       - ./back/dash:/dash
 
@@ -21,4 +21,4 @@ services:
       - /app/node_modules
       - ./front:/app
     ports:
-      - "3000:3000"
+      - "3045:3000"

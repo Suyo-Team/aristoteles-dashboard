@@ -15,6 +15,8 @@ import {
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage'; 
+import Config from 'src/utils/config';
+
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -23,7 +25,7 @@ const useStyles = makeStyles(() => ({
 
 }));
 
-  const Sales = ({ className, titulo, ruta, id, is_public,   ...rest }) => {
+const Sales = ({ className, titulo, ruta, id, is_public,   ...rest }) => {
   const classes = useStyles();
   const theme = useTheme();
   const [publico, setPublico] = useState(is_public);
@@ -54,7 +56,7 @@ const useStyles = makeStyles(() => ({
     handlePublic(estado)
 
     const Modificar = await axios.post(
-      `http://localhost:8000/dashboards/${datos}/share/`, (Objeto),
+      `${Config.app.api_root}/dashboards/${datos}/share/`, (Objeto),
 
       {
         headers: {

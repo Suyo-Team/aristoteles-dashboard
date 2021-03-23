@@ -14,7 +14,8 @@ import {
 } from "@material-ui/core";
 import Page from "src/components/Page";
 import axios from "axios";
-import AsyncStorage from '@react-native-async-storage/async-storage'; 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Config from 'src/utils/config';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,6 +26,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const { API_ROOT } = process.env;
+
 const LoginView = () => {
   const classes = useStyles();
   const navigate = useNavigate();
@@ -33,7 +36,7 @@ const LoginView = () => {
   
 
     const login = await axios.post(
-      "http://localhost:8000/api-token-auth/",
+      `${Config.app.api_root}/api-token-auth/`,
       datos,
     );
 
@@ -43,7 +46,6 @@ const LoginView = () => {
   
   };
   
-
   return (
     <Page className={classes.root} title="Login">
       <Box
