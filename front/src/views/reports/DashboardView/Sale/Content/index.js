@@ -159,6 +159,7 @@ const Sales = ({ className, titulo, ruta, id, is_public,   ...rest }) => {
       left="0"
       width="100%"
       height="100%"
+      style={{minHeight: 400 }}
        >
        </iframe>
       </CardContent>
