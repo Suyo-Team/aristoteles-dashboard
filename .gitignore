@@ -33,3 +33,5 @@ __pycache__/
 
 # Front
 .eslintcache
+
+node_modules/
