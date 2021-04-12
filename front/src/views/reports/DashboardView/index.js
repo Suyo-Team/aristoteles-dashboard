@@ -5,10 +5,11 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import Sales from './Sales';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import Config from 'src/utils/config';
+
+import { Items, Content } from './Sale'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,15 +69,14 @@ const Dashboard = ({rkok}) => {
         >
           <Grid
             item
-            lg={8}
-            md={12}
-            xl={9}
-            xs={12}
+            xs
           >
             {
               dash.map(dash => (
               <> 
-                <Sales titulo={dash.name} ruta={dash.url} id={dash.id} is_public={dash.is_public}/> 
+              <Items title={dash.name} url={dash.url} >
+                <Content titulo={dash.name} ruta={dash.url} id={dash.id} is_public={dash.is_public} />
+              </Items>
                 <br></br> 
               </>
               
